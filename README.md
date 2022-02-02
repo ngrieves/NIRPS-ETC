@@ -58,13 +58,13 @@ $ python NIRPS_ETC_script.py
   - spirou_fit_Qvalues_eniric-bandpass.txt.        
     - Q factors from Spirou templates in Eniric defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/fit_spirou_qfactors.py)
 * intermediate_preparation/
-  - ETC_v3.0_CantoMartins
+  - ETC_v3.0_CantoMartins/
     - original ETC by Bruno Canto Martins 
-  - add_stellar_templates
+  - add_stellar_templates/
     - add and update stellar templates
-  - update_RV_estimates
+  - update_RV_estimates/
     - update RV estimates and Q values
-  - update_effs
+  - update_effs/
     - update efficiency files and resample wavelength grid for tapas, effs, and star_templates
 * outputs/
   - outputs SNR for each order and wavelength vs SNR plot from NIRPS_ETC.py
