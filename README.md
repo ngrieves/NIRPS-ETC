@@ -32,6 +32,7 @@ $ python NIRPS_ETC_script.py
 * change inputs for each target in a space separated text file with columns:
   - target st obs_mode seeing airmass H t_exp bandpass
 * change input and output text files within code to desired option
+* outputs to file the mean SNR, YJH SNRs, and RV precisions
 
 
 ## Contents
@@ -57,7 +58,14 @@ $ python NIRPS_ETC_script.py
   - spirou_fit_Qvalues_eniric-bandpass.txt.        
     - Q factors from Spirou templates in Eniric defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/fit_spirou_qfactors.py)
 * intermediate_preparation/
-  - 
+  - ETC_v3.0_CantoMartins
+    - original ETC by Bruno Canto Martins 
+  - add_stellar_templates
+    - add and update stellar templates
+  - update_RV_estimates
+    - update RV estimates and Q values
+  - update_effs
+    - update efficiency files and resample wavelength grid for tapas, effs, and star_templates
 * outputs/
 * NIRPS_ETC.py
 * NIRPS_ETC_script.py
