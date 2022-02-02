@@ -16,6 +16,16 @@ Additional edits by Nolan Grieves (University of Geneva) from 2020-2022
 
 ### Files
 * inputs/
+  - NIRPS_STAR_templates.txt                       #SEDs from IRTF  (update with intermediate_preparation/update_effs/update_effs.py)
+  - NIRPS_effs.txt                                 #global efficiency of instrument (update with intermediate_preparation/update_effs/update_effs.py)
+  - NIRPS_tapas.txt                                #atmospheric efficiency from TAPAS (update with intermediate_preparation/update_effs/update_effs.py)
+  - NIRPS_wave_range.txt                           #wavelength range of echelle orders (update with intermediate_preparation/update_effs/update_effs.py)
+  - phoenix_Q_conversions_CFHT-bandpass.txt        #Q factor conversions for different resolutions in CFHT defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/phoenix_qfactor_resolution_conversion.py)
+  - phoenix_Q_conversions_eniric-bandpass.txt      #Q factor conversions for different resolutions in Eniric defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/phoenix_qfactor_resolution_conversion.py)
+  - phoenix_eniric_Qfactors_CFHT-bandpass.csv      # Q factors from Eniric in CFHT defined YJH bandpasses (update with eniric using command in intermediate_preparation/update_RV_estimates/README_update_RV_estimates)
+  - phoenix_eniric_Qfactors_eniric-bandpass.csv    # Q factors from Eniric in Eniric defined YJH bandpasses (update with eniric using command in intermediate_preparation/update_RV_estimates/README_update_RV_estimates)
+  - spirou_fit_Qvalues_CFHT-bandpass.txt           # Q factors from Spirou templates in CFHT defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/fit_spirou_qfactors.py)
+  - spirou_fit_Qvalues_eniric-bandpass.txt.        # Q factors from Spirou templates in Eniric defined YJH bandpasses (update with intermediate_preparation/update_RV_estimates/fit_spirou_qfactors.py)
 * intermediate_preparation/
 * outputs/
 * NIRPS_ETC.py
