@@ -44,7 +44,7 @@ airmass= 1.0
 #Object magnitude (H band):
 H = 9
 #Exposure time (in sec):
-t_exp = 1200
+t_exp = 900
 
 #ST Models for IRFT
 #Spectral type that only have SNR estimate:
