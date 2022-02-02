@@ -11,7 +11,7 @@ Additional edits by Nolan Grieves (University of Geneva) 2020-2022
 * The NIRPS ETC uses spectra from the NASA Infrared Telescope Facility (IRTF) as SEDs to get estimated flux values for different spectral types: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/
 * The ETC calculates efficiency at different wavelengths using seeing, atmospheric efficiency from TAPAS (http://cds-espri.ipsl.fr/tapas/), and the measured global efficiency of the instrument
 * The signal to noise ratio (SNR) at each pixel or bin is calculated from the fiber diameter, sampling, readout noise, resolution, efficiency, and flux in the pixel or bin from the IRTF template (flux=(10.\**(0.4\*(Ho-H)))\*flux_st)
-* RV precisions are calculated using, dRV=c/(Q\*sqrt(Ne-) (equation 12 of Bouchy et al. 2001: https://ui.adsabs.harvard.edu/abs/2001A%26A...374..733B/abstract). The quality factors Q for spectra are calculated with ENIRIC from Phoenix simulated spectra or from spectral templates from the Spirou spectrograph 
+* RV precisions are calculated using, dRV=c/(Q\*sqrt(Ne-)), equation 12 of Bouchy et al. (2001: https://ui.adsabs.harvard.edu/abs/2001A%26A...374..733B/abstract). The quality factors Q for spectra are calculated with ENIRIC from Phoenix simulated spectra or from spectral templates from the Spirou spectrograph 
   - -> see: NIRPS-ETC/intermediate_preparation/update_RV_estimates/README_update_RV_estimates
 
 ## Use
