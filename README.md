@@ -16,7 +16,8 @@ Additional edits by Nolan Grieves (University of Geneva) from 2020-2022
 
 ### Files
 * inputs/
-  - NIRPS_STAR_templates.txt                       #SEDs from IRTF  (update with intermediate_preparation/update_effs/update_effs.py)
+  - NIRPS_STAR_templates.txt                  
+    - SEDs from IRTF  (update with intermediate_preparation/update_effs/update_effs.py)
   - NIRPS_effs.txt                                 #global efficiency of instrument (update with intermediate_preparation/update_effs/update_effs.py)
   - NIRPS_tapas.txt                                #atmospheric efficiency from TAPAS (update with intermediate_preparation/update_effs/update_effs.py)
   - NIRPS_wave_range.txt                           #wavelength range of echelle orders (update with intermediate_preparation/update_effs/update_effs.py)
