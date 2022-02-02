@@ -1,7 +1,7 @@
 # NIRPS-ETC
 ### Exposure Time Calculator (ETC) and radial velocity precision estimator for the Near InfraRed Planet Searcher (NIRPS) spectrograph
 
-2 February 2022 - Before NIRPS on sky
+February 2022 - Before NIRPS on sky
 
 Original NIRPS ETC code by Bruno L. Canto Martins in 2018-2019 (NIRPS-ETC/intermediate_preparation/ETC_v3.0_CantoMartins/)
 
