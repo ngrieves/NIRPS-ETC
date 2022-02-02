@@ -1,0 +1,59 @@
+Update RV estimates 
+
+Use Q factors from Spirou templates or Phoenix simulated spectra (with resolution
+scaled from Eniric) instead of calculated RV from phoenix spectra
+
+##################################################################
+#### Quality factors of phoenix simulated spectra from Eniric #### 
+##################################################################
+-----NOTES TO SELF:
+conda activate pyEniric
+In /Users/nolangrieves/software/eniric/scripts
+-----
+
+## for Eniric defined YJH bands
+python phoenix_precision.py -t 5000 4500 4000 3900 3700 3600 3400 3200 3000 2800 2700 2600 2500 -l 4.5 -m 0.0 -v 0.1 1.0 5.0 10.0 -r 70000 80000 -s 3.75 4.3 -b Y J H --snr 100 --ref_band SELF
+--> pheonix_eniric_Qfactors_eniric-bandpass.csv
+
+## for CFHT defined YJH bands
+python phoenix_precision.py -t 5000 4500 4000 3900 3700 3600 3400 3200 3000 2800 2700 2600 2500 -l 4.5 -m 0.0 -v 0.1 1.0 5.0 10.0 -r 70000 80000 -s 3.75 4.3 -b Y_CFHT J_CFHT H_CFHT --snr 100 --ref_band SELF
+--> phoenix_eniric_Qfactors_CFHT-bandpass.csv
+
+# Already included wavelength bands  (see `eniric.utilities.py`)
+# "VIS": (0.38, 0.78),
+# "GAP": (0.78, 0.83),
+# "Z": (0.83, 0.93),
+# "Y": (1.0, 1.1),
+# "J": (1.17, 1.33),
+# "H": (1.5, 1.75),
+# "K": (2.07, 2.35),
+# "CONT": (0.45, 1.05),
+# "NIR": (0.83, 2.35)
+# custom_bands andded to config.yaml file
+  Y_CFHT: [0.9386,1.11134]
+  J_CFHT: [1.1535,1.3544]
+  H_CFHT: [1.4628,1.8085]
+
+##################################################################
+#### Quality factors from Spirou Templates #### 
+##################################################################
+*Use rvcontent_spirou.py to get Quality factors from Spirou templates (these are only accessible to Spirou team)
+--> spriou_template_Qvalues_CFHT-bandpass.txt
+--> spriou_template_Qvalues_eniric-bandpass.txt
+
+*Fit Spirou Q values with polynomial to get Quality factors for a range of effective temperatures using fit_spirou_qfactors.py
+--> spriou_fit_Qvalues_CFHT-bandpass.txt
+--> spriou_fit_Qvalues_eniric-bandpass.txt
+
+*Use the eniric Q factors at the HE and HA resolution to get a conversion for the spirou Q factos for the HA mode which has a higher resolution - use phoenix_qfactor_conversion.py
+--> phoenix_Q_conversions_CFHT-bandpass.txt
+--> phoenix_Q_conversions_eniric-bandpass.txt
+
+
+** copy these files into the input directory:
+--> pheonix_eniric_Qfactors_eniric-bandpass.csv
+--> phoenix_eniric_Qfactors_CFHT-bandpass.csv
+--> spriou_fit_Qvalues_CFHT-bandpass.txt
+--> spriou_fit_Qvalues_eniric-bandpass.txt
+--> phoenix_Q_conversions_CFHT-bandpass.txt
+--> phoenix_Q_conversions_eniric-bandpass.txt

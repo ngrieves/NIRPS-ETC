@@ -1,0 +1,57 @@
+# Files:
+--------
+
+	- effs.txt					# NIRPS efficiencies
+	- NIRPS_ETC.py				# Main NIRPS python code 
+	- NIRPS_ETC_2018_09_27.pdf	# Montreal Science Meeting presentation 
+	- NIRPS_ETC_Script.py		# NIRPS python code for a sample of stars (S/N & RV precision)
+	- nirps_etc_lib.py			# NIRPS python library 
+	- nirps_etc_targets.dat		# Table sample for NIRPS_ETC_Script.py 
+	- README					# Readme file (instructions)
+	- sigma_RV.txt				# RV precisions
+	- ST_templates.txt			# IRTF Spectral Library
+	- tapas.txt					# TAPAS atmospheric transmission library
+	- wave_range.txt			# NIRPS Spectral Format
+
+# How to use NIRPS_ETC.py:
+-------------
+
+	- In a terminal, in the 'NIRPS_ETC' directory:
+		$ python NIRPS_ETC.py
+
+	- See 'NIRPS_ETC_2018_09_27.pdf' for a description of how to read the results.
+
+# How to use 'NIRPS_ETC_Script.py':
+-------------
+
+	- In a terminal, in the 'NIRPS_ETC' directory:
+		$ python NIRPS_ETC_Script.py
+		$ python NIRPS_ETC_Script.py > toto.dat (To save in a archive [toto.dat] the results.)
+
+	- How to produce 'nirps_etc_targets.dat':
+		This table has 7 columns (ID_Star ST Obs_mode Seeing Airmass Hmag Exp_time). 
+		Please, avoid spaces on the ID_Star.
+		ST and Obs_mode showld be the same as in the main code:
+			ST - F0V/F5V/G0V/G5V/K0V/K3V/K7V/M0V/M1V/M2V/M3V/M4V/M5V/M6V/M7V/M8V/M9V/L1V/L2V/L3V/L4V/L5V/L6V/L8V/T2V
+			Obs_mode - HA/HE
+
+	- As a result, we have the following columns:
+		ID-Star : Star name
+		<sn>    : Average signal-to-noise in pixels (full spectrum)
+		<sn>y   : Average signal-to-noise in pixels (Y-band)
+		<sn>y   : Average signal-to-noise in pixels (J-band)
+		<sn>h   : Average signal-to-noise in pixels (H-band)
+		<sn>h'  : Average signal-to-noise in pixels (central wavelength of the H-band [1625 nm])
+		RV_min1 : Total RV precision in m/s (min) for slow rotators (1.0 km/s)
+		RV_max1 : Total RV precision in m/s (max) for slow rotators (1.0 km/s)
+		RV_min5 : Total RV precision in m/s (min) for medium rotators (5.0 km/s)
+		RV_max5 : Total RV precision in m/s (max) for medium rotators (5.0 km/s)
+		RV_min10: Total RV precision in m/s (min) for fast rotators (10.0 km/s)
+		RV_max10: Total RV precision in m/s (max) for fast rotators (10.0 km/s)
+
+# Done by in 21/02/2019:
+----------
+
+	Bruno L. CANTO MARTINS
+	brunocanto@fisica.ufrn.br
+	UFRN/Brazil 

@@ -1,0 +1,12 @@
+Add another stellar template into the STAR_templates file
+
+Nolan Grieves
+1 February 2022
+
+Use add_st_templates.py to add the G8V star from the IRTF library:
+#http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
+
+Have the old stellar templates file ST_templates.txt in this folder and create the new STAR_templates.txt file and add it into the overall inputs directory.
+
+Other stars are A stars from different libraries which are not yet implemented as they are not absolutely scaled in the same way as the IRTF library templates
+

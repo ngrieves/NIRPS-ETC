@@ -1,0 +1,12 @@
+Update NIRPS efficiency files
+Along with sampling of tapas, wave_range, and stellar template files
+
+1 February 2022
+Nolan Grieves
+
+Make sure to update the stellar templates first and then add the stellar template file into the old_files directory. Along with the effs and tapas files
+
+Run update_effs.py to create the new input files in the updated_files directory
+Add these files into the overall input directory
+
+***** MAKE SURE SAMPLING IS SAME FOR THE tapas effs AND STAR_templates files *****
