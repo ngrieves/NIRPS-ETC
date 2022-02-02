@@ -1056,6 +1056,7 @@ for itarget in range(len(targets)):
     
     print ("=================================================================")
     
+    #makedirs("outputs", exist_ok=True)
     #text_file = open("outputs/order_snrs.txt", "w")
     #text_file.write("order central_wave (beg-end)    Eff.    object     snr      snr         sat \n")
     #text_file.write("          (um)                         (e-/pxl)  (ph/pxl) (ph/res elem) (%) \n") 
