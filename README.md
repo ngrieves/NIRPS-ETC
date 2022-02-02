@@ -77,7 +77,7 @@ $ python NIRPS_ETC_script.py
 * etc_targets_output.txt
   - example ouput file for NIRPS_ETC_script.py
 * nirps_etc_lib.py
-  - definitions for fucntions ETC code
+  - definitions for fucntions in ETC code
 
 
 
