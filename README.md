@@ -14,7 +14,7 @@ Additional edits by Nolan Grieves (University of Geneva) from 2020-2022
 * RV precisions are calculated using, dRV=c/(Q\*sqrt(Ne-) (equation 12 of Bouchy et al. 2001: https://ui.adsabs.harvard.edu/abs/2001A%26A...374..733B/abstract). The quality factors Q for spectra are calculated with ENIRIC from Phoenix simulated spectra or from spectral templates from the Spirou spectrograph 
   - -> see: NIRPS-ETC/intermediate_preparation/update_RV_estimates/README_update_RV_estimates
 
-### Use
+## Use
 $ python NIRPS_ETC.py
 * change observing options within the code at the top
   - Observation Mode (HA/HE)
@@ -34,7 +34,7 @@ $ python NIRPS_ETC_script.py
 * change input and output text files within code to desired option
 
 
-## Files
+## Contents
 * inputs/
   - NIRPS_STAR_templates.txt                  
     - SEDs from IRTF  (update with intermediate_preparation/update_effs/update_effs.py)
