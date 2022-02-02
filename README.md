@@ -67,11 +67,17 @@ $ python NIRPS_ETC_script.py
   - update_effs
     - update efficiency files and resample wavelength grid for tapas, effs, and star_templates
 * outputs/
+  - outputs SNR for each order and wavelength vs SNR plot from NIRPS_ETC.py
 * NIRPS_ETC.py
+  - main ETC code for a single star
 * NIRPS_ETC_script.py
+  - script that runs ETC for stars in etc_targets_input.txt and outputs to etc_targets_output.txt
 * etc_targets_input.txt
+  - example input file for NIRPS_ETC_script.py
 * etc_targets_output.txt
+  - example ouput file for NIRPS_ETC_script.py
 * nirps_etc_lib.py
+  - definitions for fucntions ETC code
 
 
 
