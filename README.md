@@ -3,7 +3,7 @@
 
 February 2022 - Before NIRPS on sky
 
-Original NIRPS ETC code by Bruno L. Canto Martins in 2018-2019 (NIRPS-ETC/intermediate_preparation/ETC_v3.0_CantoMartins/)
+Original NIRPS ETC code by Bruno L. Canto Martins in 2018-2019
 
 Additional edits by Nolan Grieves (University of Geneva) from 2020-2022
 
