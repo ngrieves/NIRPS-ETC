@@ -3,9 +3,9 @@
 
 February 2022 - Before NIRPS on sky
 
-Original NIRPS ETC code by Bruno L. Canto Martins in 2018-2019
+Original NIRPS ETC code by Bruno L. Canto Martins 2018-2019
 
-Additional edits by Nolan Grieves (University of Geneva) from 2020-2022
+Additional edits by Nolan Grieves (University of Geneva) 2020-2022
 
 ## Overview 
 * The NIRPS ETC uses spectra from the NASA Infrared Telescope Facility (IRTF) as SEDs to get estimated flux values for different spectral types: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/
