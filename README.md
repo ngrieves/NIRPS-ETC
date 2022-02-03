@@ -66,7 +66,8 @@ $ python NIRPS_ETC_script.py
     - update RV estimates and Q values
   - update_effs/
     - update efficiency files and resample wavelength grid for tapas, effs, and star_templates
-* outputs/
+* outputs/ (this directory is created by the ETC code but will not be synced
+  with Github)
   - outputs SNR for each order and wavelength vs SNR plot from NIRPS_ETC.py
 * NIRPS_ETC.py
   - main ETC code for a single star
