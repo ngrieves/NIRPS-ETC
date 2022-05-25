@@ -38,33 +38,46 @@ start_time = time.time()
 #Observation Mode (HA/HE): 
 obs_mode= 'HA'
 #Seeing, in arcsec (range 0.7-1.2):
-seeing= 1.0
+seeing= 1.2
 #Airmass (range 1.0-2.0):
-airmass= 1.0
+airmass= 1.11
 #Object magnitude (H band):
-H = 9
+H = 4.845
 #Exposure time (in sec):
-t_exp = 900
+t_exp = 123
 
 #ST Models for IRFT
 #Spectral type that only have SNR estimate:
 #F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
 #Spectral type that have SNR and RV precision estimate: 
 #K3V/K7V/M0V/M1V/M2V/M3V/M4V/M5V/M6V/M7V/M8V/M9V
-st = 'M4V'
+st = 'F0V'
 
 #wavelength bandpasses for YJH ('CFHT' or 'Eniric')
 bandpass = 'CFHT'
 
+#Use all order information (TSR) or only FSR
+waveselect = 'FSR'
+#FSR = Free Spectral Range calculated from 50% of blaze
+#TSR = Total Spectral Range
+
 #Vsini of star for Eniric Pheonix spectra RV calculations will be for [0.1,1.0,5.0,10.0] km/s
 
 ###############################################################
+###############################################################
+###############################################################
 
-effs_file = 'NIRPS_effs.txt'
-wave_range_file = 'NIRPS_wave_range.txt'
-tapas_file = 'NIRPS_tapas.txt'
-st_templates_file = 'NIRPS_STAR_templates.txt'
 
+if waveselect == 'FSR':
+    effs_file = 'NIRPS_effs_FSR.txt'
+    wave_range_file = 'NIRPS_wave_range_FSR.txt'
+    tapas_file = 'NIRPS_tapas_FSR.txt'
+    st_templates_file = 'NIRPS_STAR_templates_FSR.txt'
+else:
+    effs_file = 'NIRPS_effs.txt'
+    wave_range_file = 'NIRPS_wave_range.txt'
+    tapas_file = 'NIRPS_tapas.txt'
+    st_templates_file = 'NIRPS_STAR_templates.txt'
 
 if bandpass == 'CFHT':
 	spriou_fit_qvalues_file = 'spirou_fit_Qvalues_CFHT-bandpass.txt'
@@ -947,7 +960,8 @@ while i<len(wavelengths):
 	i=i+1
 
 #Hband SNR
-hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - 1625.0))
+hband_wave = 1617.5
+hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - hband_wave))
 SNR_pxl_H = S_N_pxl[hband_ind]
 SNR_bin_H = S_N_bin[hband_ind]
 sn_h = SNR_bin_H
@@ -1087,7 +1101,7 @@ print("\n SIGNAL TO NOISE RATIO:\n")
 print ("Mean S/N: %5.1f (ph/pxl) | %5.1f (ph/res elem)"%(SN_pxl/len(order_wave),SN_bin/len(order_wave)))
 print ("Mean S/N (ph/pxl): Y=%5.1f | J=%5.1f | H=%5.1f"%(SN_pxl_Y/mean_pxl_Y,SN_pxl_J/mean_pxl_J,SN_pxl_H/mean_pxl_H))
 print ("         (ph/res elem): Y=%5.1f | J=%5.1f | H=%5.1f\n\n"%(SN_bin_Y/mean_bin_Y,SN_bin_J/mean_bin_J,SN_bin_H/mean_bin_H))
-print ("S/N in H (1625 nm): %5.1f (ph/pxl) | %5.1f (ph/res elem)\n"%(SNR_pxl_H,SNR_bin_H))
+print ('S/N in H ('+str(hband_wave)+' nm): %5.1f (ph/pxl) | %5.1f (ph/res elem)\n'%(SNR_pxl_H,SNR_bin_H))
 print ("-----------------------------------------------------------------")
 print("\nMean Efficiency: %5.3f "%(mean_all_eff/len(EFF_mean)))
 print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n"%(mean_eff_Y/mean_pxl_Y,mean_eff_J/mean_pxl_J,mean_eff_H/mean_pxl_H))

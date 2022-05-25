@@ -58,6 +58,11 @@ start_time = time.time()
 #
 ##Vsini of star for Eniric Pheonix spectra RV calculations will be for [0.1,1.0,5.0,10.0] km/s
 #
+
+#Use all order information (TSR) or only FSR
+waveselect = 'TSR'
+#FSR = Free Spectral Range calculated from 50% of blaze
+#TSR = Total Spectral Range
 ################################################################
 
 input_targets_file = 'etc_targets_input.txt'
@@ -79,10 +84,16 @@ output_targets = open(output_targets_file, "w")
 output_targets.write('target Mean_S/N_(ph/pxl) Mean_S/N_(ph/pxl)_Y Mean_S/N_(ph/pxl)_J Mean_S/N_(ph/pxl)_H spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n')
 
 
-effs_file = 'NIRPS_effs.txt'
-wave_range_file = 'NIRPS_wave_range.txt'
-tapas_file = 'NIRPS_tapas.txt'
-st_templates_file = 'NIRPS_STAR_templates.txt'
+if waveselect == 'FSR':
+    effs_file = 'NIRPS_effs_FSR.txt'
+    wave_range_file = 'NIRPS_wave_range_FSR.txt'
+    tapas_file = 'NIRPS_tapas_FSR.txt'
+    st_templates_file = 'NIRPS_STAR_templates_FSR.txt'
+else:
+    effs_file = 'NIRPS_effs.txt'
+    wave_range_file = 'NIRPS_wave_range.txt'
+    tapas_file = 'NIRPS_tapas.txt'
+    st_templates_file = 'NIRPS_STAR_templates.txt'
 
 
 for itarget in range(len(targets)):
