@@ -988,7 +988,8 @@ for itarget in range(len(targets)):
     	i=i+1
     
     #Hband SNR
-    hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - 1625.0))
+    hband_wave = 1619
+    hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - hband_wave))
     SNR_pxl_H = S_N_pxl[hband_ind]
     SNR_bin_H = S_N_bin[hband_ind]
     sn_h = SNR_bin_H
