@@ -16,26 +16,33 @@ from scipy.signal import medfilt
 
 showplots = 1
 order_array_size = 1000 #sample size that each order will be interpolated into
-wave_range = 'TSR' #select 'TSR' or 'FSR'
+wave_range = 'FSR' #select 'TSR' or 'FSR'
 #FSR = Free Spectral Range calculated from 50% of blaze
 #TSR = Total Spectral Range
 
 #set the physical orders - make sure to match the wave matrix and blaze files
 new_orders_first = np.arange(106,150)[::-1]
-new_orders_second = np.arange(80,105)[::-1]
+new_orders_second = np.arange(79,105)[::-1]
 #new_orders_second = np.arange(81,105)[::-1]
 #new_orders_second = np.arange(78,105)[::-1]
 new_orders = np.append(new_orders_first,new_orders_second)
 
-new_effs_filename = 'NIRPS_effs.txt'
-new_waverange_filename = 'NIRPS_wave_range.txt'
-new_tapas_filename = 'NIRPS_tapas.txt'
-new_st_templates_filename = 'NIRPS_STAR_templates.txt'
+if wave_range == 'FSR':
+    new_effs_filename = 'NIRPS_effs_FSR.txt'
+    new_waverange_filename = 'NIRPS_wave_range_FSR.txt'
+    new_tapas_filename = 'NIRPS_tapas_FSR.txt'
+    new_st_templates_filename = 'NIRPS_STAR_templates_FSR.txt'
+else:
+    new_effs_filename = 'NIRPS_effs.txt'
+    new_waverange_filename = 'NIRPS_wave_range.txt'
+    new_tapas_filename = 'NIRPS_tapas.txt'
+    new_st_templates_filename = 'NIRPS_STAR_templates.txt'
+
 
 
 #load new wave matrix and blaze data
-wave_matrix = fits.open('NIRPS_WAVE_MATRIX_A.fits')
-wave_blaze = fits.open('r.NIRPS_HA_FLAT166_0002_BLAZE_A.fits') #wave_blaze = fits.open('NIRPS_S2D_BLAZE_A.fits')
+wave_matrix = fits.open('NIRPS_WAVE_MATRIX_A.fits') #HA mode from June 2022
+wave_blaze = fits.open('NIRPS_BLAZE_A.fits') #HA mode from June 2022 #wave_blaze = fits.open('NIRPS_S2D_BLAZE_A.fits')
 
 new_wave = wave_matrix[1].data
 new_blaze = wave_blaze[1].data
