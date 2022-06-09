@@ -82,7 +82,7 @@ for iord in range(len(new_orders)):
         iord_blazenorm_init = new_blaze[iord]/max(new_blaze[iord])
         iord_blazenorm_interp = scipy.interpolate.interp1d(np.arange(iord_blazenorm_init.size),iord_blazenorm_init)
         iord_blazenorm = iord_blazenorm_interp(np.linspace(0,iord_blazenorm_init.size-1,order_array_size))
-        
+
     if wave_range == 'FSR':
         ############## FSR ############## 
         FSRcut = 0.5 #define blaze cut of FSR
@@ -415,7 +415,7 @@ tapas_new[mask0] = 0
 tapas_df = pd.DataFrame(data=tapas_new,index=None,columns=tapas.columns)
 tapas_df.to_csv('updated_files/'+new_tapas_filename,index=None,sep='\t')
 ##########################################################################  
-########################################################################## 
+##########################################################################  
 
 ##########################################################################  
 #### resample stellar templates file to match new length of effs #####
