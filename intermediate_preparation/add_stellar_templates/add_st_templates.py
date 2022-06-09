@@ -28,6 +28,7 @@ for col in stars:
 #flux in [Wm-2um-1]
 
 ################################################################
+###### Add in G8V star ######
 ################################################################
 # Get G8V star from IRTF:
 #http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
@@ -42,12 +43,12 @@ g8v_flx = g8v_flx[g8v_flx != -999]
 fint = interp1d(g8v_wln, g8v_flx, kind='cubic',fill_value="extrapolate")
 g8v_flxint = fint(wlns)
 
-plt.plot(sts['#Lambda'],g8v_flxint,'--',color='red',label='g8v added')
+plt.plot(sts['#Lambda'],g8v_flxint,':',label='g8v')#,color='red'
 plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
 plt.ylabel('Flux [Wm-2um-1]',fontsize=18)
 plt.xlabel('Wavelength [nm]',fontsize=18)
-plt.legend()
+
 
 #add column
 sts['g8v'] = g8v_flxint
@@ -57,99 +58,70 @@ sts['g8v'] = g8v_flxint
 #       'l2v', 'l3v', 'l5v', 'l6v', 'l8v', 't2v'])
 #print(stso.columns)
 
-print(sts.columns)
-
-sts.to_csv('STAR_templates.txt', header=sts.columns,index=None, sep='\t')
 ################################################################
+###### Add in A and B stars ######
 ################################################################
-
-             
-             
-######## A Star Template Work Below ########
-             
-#             
-#################################################################
-#################################################################          
-##Get A star from CRIRES+ spectrophotometric standard stars
+##CRIRES+ spectrophotometric standard stars
 ##https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
-#             
-##A0V    9700
-##A9V    7400 
-#
+
 ##HIP104139 = HD104139, Teff=9.200K, SpT=A1V, K4.1mag
 ##HR7950 : A1 V
 ##HR3454 Teff=17000 K and logg=4.0
 ##HR4468 Teff=10500 K and logg=4.0
 ##HR5501 : B9.5V 
-##HR7950 : A1 V 
 ##HR8634 : B8 V Teff = 11000 K and logg=4.0
-#
-#crires_stars = ['HIP104139','HR7950','HR5501','HR7950','HR8634']
-#
-#sed_HIP104139 = pd.read_csv('HIP104139.txt',comment='#',sep=r"\s+",header=None)
-#wln_HIP104139 = sed_HIP104139[0]*10.0 # lambda [nm] to Angstrom
-#flx_HIP104139 = sed_HIP104139[1] #F(nu) [Jy]
-##convert units 
-## F(nu) [Jy] to erg/s/cm2/A
-## Flux Density conversion: F_lambda [erg/s/cm2/A] = 3.0x10^-5 * F_nu / wln[A]^2
-#flx_lambda_HIP104139 = flx_HIP104139 * 3.0e-5 / wln_HIP104139**2
-##divide by 10000 for Angstrom to um, multiply by 10000 for m-2 to cm-2 (so units the same)
-##1 Watt = 10000000 erg/s       so / (1e7)
-#flx_lambda_HIP104139 = flx_lambda_HIP104139 / 1e7
-#wln_HIP104139 = wln_HIP104139 / 10.0 #Angstrom to nm
-#
-#
-#
-#sed_HR3454 = pd.read_csv('HR3454.txt',comment='#',sep=r"\s+",header=None)
-#wln_HR3454 = sed_HR3454[0]*10.0 # lambda [nm] to Angstrom
-#flx_HR3454 = sed_HR3454[1] #F(nu) [Jy]
-##convert units 
-## F(nu) [Jy] to erg/s/cm2/A
-## Flux Density conversion: F_lambda [erg/s/cm2/A] = 3.0x10^-5 * F_nu / wln[A]^2
-##From: https://www.stsci.edu/~strolger/docs/UNITS.txt
-##[Y erg/cm^2/s/A]             = 2.99792458E-05 * [X1 Jy] / [X2 A]^2
-#
-#
-#flx_lambda_HR3454 = flx_HR3454 * 3.0e-5 / wln_HR3454**2
-##divide by 10000 for Angstrom to um, multiply by 10000 for m-2 to cm-2 (so units the same)
-##1 Watt = 10000000 (1e7) erg/s          so / (1e7)
-#flx_lambda_HR3454 = flx_lambda_HR3454 / 1e7
-#wln_HR3454 = wln_HR3454 / 10.0 #Angstrom to nm
-#
-#plt.plot(wln_HIP104139,flx_lambda_HIP104139,color='black',label='HIP104139 A1V')
-#plt.plot(wln_HR3454,flx_lambda_HR3454,color='green',label='HR3454')
-#################################################################
-#################################################################
-#
-#
-#################################################################
-#################################################################
-##### HIGH RESOLUTION spectra from goettingen
-##http://phoenix.astro.physik.uni-goettingen.de/
-##Husser 2013:
-##https://ui.adsabs.harvard.edu/abs/2013A%26A...553A...6H/abstract
-#hdu_wln = fits.open('goettingen/highres/WAVE_PHOENIX-ACES-AGSS-COND-2011.fits')
-#data_wln = hdu_wln[0].data /10.0
-#
-#hdu_8000 = fits.open('goettingen/highres/lte08000-4.50-0.0.PHOENIX-ACES-AGSS-COND-2011-HiRes.fits')
-#data_8000 = hdu_8000[0].data #'erg/s/cm^2/cm'  
-##divide by 10000 for cm-2 to m-2        so / (1e4)
-##divide by 10000 for cm-1 to um-1       so / (1e4)
-##1 Watt = 10000000 (1e7) erg/s          so / (1e7)
-#data_8000 = data_8000 / 1e15
-#
-#hdu_9800 = fits.open('goettingen/highres/lte09800-4.50-0.0.PHOENIX-ACES-AGSS-COND-2011-HiRes.fits')
-#data_9800 = hdu_9800[0].data / 1e15
-#
-##plt.plot(data_wln,data_8000,label='Teff=8000')
-##plt.plot(data_wln,data_9800,label='Teff=9800')
-#
-#################################################################
-#################################################################
-#
-#plt.xlim(900,2000)
-#plt.xticks(fontsize=16)
-#plt.yticks(fontsize=16)
-#plt.ylabel('Flux [Wm-2um-1]',fontsize=18)
-#plt.xlabel('Wavelength [nm]',fontsize=18)
-#plt.legend()
+####Use HR5501 for B9p5V
+
+
+#Use HR3454 for B3V
+#Use HR8634 for B8V
+#Use HR4468 for B9V
+#Use HR7950 for A1V
+
+crires_stars = ['HR7950','HR3454','HR4468','HR5501','HR8634']
+crires_stars_label = ['A1V_HR7950','B3V_HR3454','B9V_HR4468','B9V_HR5501','B8V_HR8634']
+
+crires_stars = ['HR3454','HR8634','HR4468','HR7950']
+crires_stars_label = ['b3v','b8v','b9v','a1v']
+
+##### Convert Unites #####
+#https://irsa.ipac.caltech.edu/data/SPITZER/docs/spitzermission/missionoverview/spitzertelescopehandbook/18/#_Toc60818984
+#Infrared Flux Units
+#The infrared flux density from a point source is most commonly given in units of Jansky (Jy) where:
+#1 Jy = 10-23 erg s-1 cm-2 Hz-1 = 10-26 Watts m-2 Hz-1 = Fν
+#The conversion between Janskys and flux density in Wm-2 per unit wavelength is given by:
+#Fν x 10-26 x c/λ2= Fλ
+
+c = 299792458 #m/s
+
+for istar in range(len(crires_stars)):
+    star = crires_stars[istar]
+    slabel = crires_stars_label[istar]
+    sed_star = pd.read_csv(star+'.txt',comment='#',sep=r"\s+",header=None)
+    wln_star = sed_star[0] # lambda [nm]
+    flx_star_o = sed_star[1] # F(nu) [Jy]
+    wln_star_m = wln_star * 1e-9 #nm to m
+    
+    flx_star = flx_star_o * 1e-26 * (c/wln_star_m**2)
+    flx_star = flx_star * 1e-6 #m-1 to micron-1
+    
+    #interpolate to wln range
+    fint = interp1d(wln_star,flx_star, kind='cubic',fill_value="extrapolate")
+    star_flxint = fint(wlns)
+
+    plt.plot(wlns,star_flxint,':',label=slabel)
+    sts[slabel] = star_flxint
+
+
+
+
+
+
+plt.legend()
+plt.savefig('NIRPS_ETC_stellar_templates.pdf')
+
+print(sts.columns)
+
+sts.to_csv('STAR_templates.txt', header=sts.columns,index=None, sep='\t')
+################################################################
+################################################################

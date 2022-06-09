@@ -15,9 +15,10 @@
 #  - resolutions
 #  - wavelength/blaze values from in lab
 # correct for difference between wavelength array size and pixel bin size for total number of electrons
+# New WAVE and BLAZE from La Silla (June 2022)
+# Add A adn B stellar templates (June 2022)
 
 # Imports
-
 import numpy
 from os import system, chdir, makedirs
 import matplotlib.pyplot as plt
@@ -38,20 +39,20 @@ start_time = time.time()
 #Observation Mode (HA/HE): 
 obs_mode= 'HA'
 #Seeing, in arcsec (range 0.7-1.2):
-seeing= 1.2
+seeing= 1.0
 #Airmass (range 1.0-2.0):
-airmass= 1.0
+airmass= 1.2
 #Object magnitude (H band):
-H = 6
+H = 9
 #Exposure time (in sec):
-t_exp = 120
+t_exp = 600
 
 #ST Models for IRFT
 #Spectral type that only have SNR estimate:
-#F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
+#B3V/B8V/B9V/A1V/F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
 #Spectral type that have SNR and RV precision estimate: 
 #K3V/K7V/M0V/M1V/M2V/M3V/M4V/M5V/M6V/M7V/M8V/M9V
-st = 'G0V'
+st = 'M4V'
 
 #wavelength bandpasses for YJH ('CFHT' or 'Eniric')
 bandpass = 'CFHT'
@@ -257,6 +258,22 @@ def calc_flux_spectral_type(st,H):
 			flux_sts.append(line[25])     
 			I=0.902+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt
 			Ho=4.265                      #H mag of star in IRFT spectrum header: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
+		elif st == 'B3V':                 #NG add 09.06.2022
+			flux_sts.append(line[26])     
+			I=H-0.279                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+			Ho=4.840                      #Spectra from HR3454 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+		elif st == 'B8V':                 #NG add 09.06.2022
+			flux_sts.append(line[27])     
+			I=H-0.149                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+			Ho=3.53                       #Spectra from HR8634 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+		elif st == 'B9V':                 #NG add 09.06.2022
+			flux_sts.append(line[28])     
+			I=H-0.076                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+			Ho=4.845                      #Spectra from HR4468 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+		elif st == 'A1V':                 #NG add 09.06.2022
+			flux_sts.append(line[29])     
+			I=0.016+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+			Ho=3.71                       #Spectra from HR7950 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
 
 	if len(flux_sts) == 0:
 			print("\n################################################")

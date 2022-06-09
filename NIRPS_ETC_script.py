@@ -15,9 +15,10 @@
 #  - resolutions
 #  - wavelength/blaze values from in lab
 # correct for difference between wavelength array size and pixel bin size for total number of electrons
+# New WAVE and BLAZE from La Silla (June 2022)
+# Add A adn B stellar templates (June 2022)
 
 # Imports
-
 import numpy
 from os import system, chdir
 import matplotlib.pyplot as plt
@@ -48,7 +49,7 @@ start_time = time.time()
 #
 ##ST Models for IRFT
 ##Spectral type that only have SNR estimate:
-##F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
+##B3V/B8V/B9V/A1V/F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
 ##Spectral type that have SNR and RV precision estimate: 
 ##K3V/K7V/M0V/M1V/M2V/M3V/M4V/M5V/M6V/M7V/M8V/M9V
 #st = 'M4V'
@@ -60,7 +61,7 @@ start_time = time.time()
 #
 
 #Use all order information (TSR) or only FSR
-waveselect = 'TSR'
+waveselect = 'FSR'
 #FSR = Free Spectral Range calculated from 50% of blaze
 #TSR = Total Spectral Range
 ################################################################
@@ -81,7 +82,7 @@ bandpasses = input_targets['bandpass']
 
 
 output_targets = open(output_targets_file, "w")
-output_targets.write('target Mean_S/N_(ph/pxl) Mean_S/N_(ph/pxl)_Y Mean_S/N_(ph/pxl)_J Mean_S/N_(ph/pxl)_H spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n')
+output_targets.write('target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) Hmax_1619nm(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n')
 
 
 if waveselect == 'FSR':
@@ -285,7 +286,24 @@ for itarget in range(len(targets)):
     			flux_sts.append(line[25])     
     			I=0.902+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt
     			Ho=4.265                      #H mag of star in IRFT spectrum header: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
-    
+    		elif st == 'B3V':                 #NG add 09.06.2022
+    			flux_sts.append(line[26])     
+    			I=H-0.279                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+    			Ho=4.840                      #Spectra from HR3454 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+    		elif st == 'B8V':                 #NG add 09.06.2022
+    			flux_sts.append(line[27])     
+    			I=H-0.149                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+    			Ho=3.53                       #Spectra from HR8634 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+    		elif st == 'B9V':                 #NG add 09.06.2022
+    			flux_sts.append(line[28])     
+    			I=H-0.076                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+    			Ho=4.845                      #Spectra from HR4468 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+    		elif st == 'A1V':                 #NG add 09.06.2022
+    			flux_sts.append(line[29])     
+    			I=0.016+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
+    			Ho=3.71                       #Spectra from HR7950 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+
+
     	if len(flux_sts) == 0:
     			print("\n################################################")
     			print("# There is no template for this spectral type. #")
@@ -1238,6 +1256,6 @@ for itarget in range(len(targets)):
         
     
     print ("=================================================================\n\n")
-    output_targets.write(target+' %.2f %.2f %.2f %.2f '%(SN_pxl/len(order_wave),SN_pxl_Y/mean_pxl_Y,SN_pxl_J/mean_pxl_J,SN_pxl_H/mean_pxl_H)+spRV+' '+enRV_vsini01+' '+enRV_vsini1+' '+enRV_vsini5+' '+enRV_vsini10+' \n')
+    output_targets.write(target+' %.2f %.2f %.2f %.2f %.2f '%(SN_pxl/len(order_wave),SN_pxl_Y/mean_pxl_Y,SN_pxl_J/mean_pxl_J,SN_pxl_H/mean_pxl_H,SNR_pxl_H)+spRV+' '+enRV_vsini01+' '+enRV_vsini1+' '+enRV_vsini5+' '+enRV_vsini10+' \n')
 
 output_targets.close()
