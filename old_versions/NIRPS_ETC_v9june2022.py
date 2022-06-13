@@ -17,7 +17,6 @@
 # correct for difference between wavelength array size and pixel bin size for total number of electrons
 # New WAVE and BLAZE from La Silla (June 2022)
 # Add A adn B stellar templates (June 2022)
-# Get SNR of orders from the central 5% (June 2022)
 
 # Imports
 import numpy
@@ -1001,7 +1000,6 @@ EFF_mean.append(effall)
 FLUX_mean.append(fluxobj)
 SATURATION.append(saturation)
 
-
 print ("=================================================================")
 
 
@@ -1061,59 +1059,69 @@ print ("=================================================================")
 
 makedirs("outputs", exist_ok=True)
 text_file = open("outputs/order_snrs.txt", "w")
-text_file.write("##--  calculated from the central 5% of each order --## \n")
 text_file.write("order central_wave (beg-end)    Eff.    object     snr      snr         sat \n")
 text_file.write("          (um)                         (e-/pxl)  (ph/pxl) (ph/res elem) (%) \n") 
 
+i=0
 
-######## UPDATE 13 June 2022 ########
-#get central 200 pixels (central 5%) for oder S/N instead of all wavelengths 
-#####################################
-SN_pxl_order_central = np.zeros(len(order_wave))
-SN_bin_order_central = np.zeros(len(order_wave))
-N_OBJ_order_central = np.zeros(len(order_wave))
-EFF_order_central = np.zeros(len(order_wave))
-#len(S_N_pxl)
-order_sampling_size = int(len(S_N_pxl)/len(order_wave))
-ind1_center = int(len(S_N_pxl)/len(order_wave)*0.475)-1
-ind2_center = int(len(S_N_pxl)/len(order_wave)*0.525)-1
+SN_pxl=0
+SN_pxl_Y=0
+SN_pxl_J=0
+SN_pxl_H=0
+mean_pxl_Y=0
+mean_pxl_J=0
+mean_pxl_H=0
+SN_bin=0
+SN_bin_Y=0
+SN_bin_J=0
+SN_bin_H=0
+mean_bin_Y=0
+mean_bin_J=0
+mean_bin_H=0
 
-for i in range(len(order_wave)):
-	SN_pxl_order_central[i] = np.nanmean(S_N_pxl[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
-	SN_bin_order_central[i] = np.nanmean(S_N_bin[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])#[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
-	N_OBJ_order_central[i] = np.nanmean(N_OBJ[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
-	EFF_order_central[i] = np.nanmean(total_effs[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
+#Efficiency averages
+mean_all_eff = 0
+mean_eff_Y = 0
+mean_eff_J = 0
+mean_eff_H = 0
+
+while i < len(order_wave):
+
 	text_file.write('# %s %7.2f (%7.2f-%7.2f) '%(repr(order_wave[i]).rjust(3),central_wave[i],beg_wave[i],end_wave[i]))
-	text_file.write('%5.3f %.5e %5.1f %8.1f %s \n'%(EFF_order_central[i],N_OBJ_order_central[i],SN_pxl_order_central[i],SN_bin_order_central[i],repr(int(SATURATION[i]*100.)).rjust(10)))
-
-
-central_wave = np.array(central_wave)
-wavelengths_nm = np.array(wavelengths_nm)
-total_effs = np.array(total_effs)
-
-SN_pxl_Y = np.nanmean(SN_pxl_order_central[((central_wave >= wlnmin_y) & (central_wave <= wlnmax_y))])
-SN_pxl_J = np.nanmean(SN_pxl_order_central[((central_wave >= wlnmin_j) & (central_wave <= wlnmax_j))])
-SN_pxl_H = np.nanmean(SN_pxl_order_central[((central_wave >= wlnmin_h) & (central_wave <= wlnmax_h))])
-    
-SN_bin_Y = np.nanmean(SN_bin_order_central[((central_wave >= wlnmin_y) & (central_wave <= wlnmax_y))])
-SN_bin_J = np.nanmean(SN_bin_order_central[((central_wave >= wlnmin_j) & (central_wave <= wlnmax_j))])
-SN_bin_H = np.nanmean(SN_bin_order_central[((central_wave >= wlnmin_h) & (central_wave <= wlnmax_h))])
-
-mean_eff_Y = np.nanmean(total_effs[((wavelengths_nm >= wlnmin_y) & (wavelengths_nm <= wlnmax_y))])
-mean_eff_J = np.nanmean(total_effs[((wavelengths_nm >= wlnmin_j) & (wavelengths_nm <= wlnmax_j))])
-mean_eff_H = np.nanmean(total_effs[((wavelengths_nm >= wlnmin_h) & (wavelengths_nm <= wlnmax_h))])
-
+	text_file.write('%5.3f %.5e %5.1f %8.1f %s \n'%(EFF_mean[i],Decimal(N_OBJ_mean[i]),S_N_pxl_mean[i],S_N_bin_mean[i],repr(int(SATURATION[i]*100.)).rjust(10)))
+	SN_pxl=SN_pxl+S_N_pxl_mean[i]
+	SN_bin=SN_bin+S_N_bin_mean[i]
+	mean_all_eff = mean_all_eff+EFF_mean[i]
+	if wlnmin_y <= central_wave[i] <= wlnmax_y:
+		SN_pxl_Y=SN_pxl_Y+S_N_pxl_mean[i]
+		mean_pxl_Y=mean_pxl_Y+1
+		SN_bin_Y=SN_bin_Y+S_N_bin_mean[i]
+		mean_bin_Y=mean_bin_Y+1
+		mean_eff_Y=mean_eff_Y+EFF_mean[i]
+	if wlnmin_j <= central_wave[i] <= wlnmax_j:
+		SN_pxl_J=SN_pxl_J+S_N_pxl_mean[i]
+		mean_pxl_J=mean_pxl_J+1
+		SN_bin_J=SN_bin_J+S_N_bin_mean[i]
+		mean_bin_J=mean_bin_J+1
+		mean_eff_J=mean_eff_J+EFF_mean[i]
+	if wlnmin_h <= central_wave[i] <= wlnmax_h:
+		SN_pxl_H=SN_pxl_H+S_N_pxl_mean[i]
+		mean_pxl_H=mean_pxl_H+1
+		SN_bin_H=SN_bin_H+S_N_bin_mean[i]
+		mean_bin_H=mean_bin_H+1
+		mean_eff_H=mean_eff_H+EFF_mean[i]
+	i=i+1
 
 text_file.close()
 print ("-----------------------------------------------------------------")
 print("\n SIGNAL TO NOISE RATIO:\n")
-print ("Mean S/N of center of all orders: %5.1f (ph/pxl) | %5.1f (ph/res elem)"%(np.nanmean(SN_pxl_order_central[(SN_pxl_order_central > 0)]),np.nanmean(SN_bin_order_central[SN_bin_order_central>0])))
-print ("Mean S/N of center of orders (ph/pxl): Y=%5.1f | J=%5.1f | H=%5.1f"%(SN_pxl_Y,SN_pxl_J,SN_pxl_H))
-print ("         (ph/res elem): Y=%5.1f | J=%5.1f | H=%5.1f\n\n"%(SN_bin_Y,SN_bin_J,SN_bin_H))
+print ("Mean S/N: %5.1f (ph/pxl) | %5.1f (ph/res elem)"%(SN_pxl/len(order_wave),SN_bin/len(order_wave)))
+print ("Mean S/N (ph/pxl): Y=%5.1f | J=%5.1f | H=%5.1f"%(SN_pxl_Y/mean_pxl_Y,SN_pxl_J/mean_pxl_J,SN_pxl_H/mean_pxl_H))
+print ("         (ph/res elem): Y=%5.1f | J=%5.1f | H=%5.1f\n\n"%(SN_bin_Y/mean_bin_Y,SN_bin_J/mean_bin_J,SN_bin_H/mean_bin_H))
 print ('S/N in H ('+str(hband_wave)+' nm): %5.1f (ph/pxl) | %5.1f (ph/res elem)\n'%(SNR_pxl_H,SNR_bin_H))
 print ("-----------------------------------------------------------------")
-print("\nMean Efficiency: %5.3f "%(np.nanmean(total_effs)))
-print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n"%(mean_eff_Y,mean_eff_J,mean_eff_H))
+print("\nMean Efficiency: %5.3f "%(mean_all_eff/len(EFF_mean)))
+print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n"%(mean_eff_Y/mean_pxl_Y,mean_eff_J/mean_pxl_J,mean_eff_H/mean_pxl_H))
 print ("-----------------------------------------------------------------")
 
 N_OBJ_arr = np.array(N_OBJ)
@@ -1230,9 +1238,7 @@ plt.xticks(fontsize=16)
 plt.yticks(fontsize=16)
 
 cmap=plt.get_cmap('jet')
-#for (cw,snr,sat) in zip(central_wave,S_N_pxl_mean,SATURATION):
-#	plt.scatter(cw,snr,color=cmap(sat),zorder=2)
-for (cw,snr,sat) in zip(central_wave,SN_pxl_order_central,SATURATION):
+for (cw,snr,sat) in zip(central_wave,S_N_pxl_mean,SATURATION):
 	plt.scatter(cw,snr,color=cmap(sat),zorder=2)
 plt.title('S/N vs Wavelength graph', fontsize=18)
 plt.ylabel('S/N (ph/pxl)', fontsize=16)
