@@ -16,7 +16,7 @@ from scipy.signal import medfilt
 
 showplots = 1
 order_array_size = 1000 #sample size that each order will be interpolated into
-wave_range = 'TSR' #select 'TSR' or 'FSR'
+wave_range = 'FSR' #select 'TSR' or 'FSR'
 #FSR = Free Spectral Range calculated from 50% of blaze
 #TSR = Total Spectral Range
 
@@ -420,20 +420,43 @@ tapas_df.to_csv('updated_files/'+new_tapas_filename,index=None,sep='\t')
 ##########################################################################  
 #### resample stellar templates file to match new length of effs #####
 ########################################################################## 
+# st_templates = pd.read_csv('old_files/STAR_templates.txt',header=0,sep=r"\s+")
+# st_templates_columns = ['f0v', 'f5v', 'g0v', 'g5v', 'k0v', 'k3v', 'k7v', 
+#                         'm0v','m1v', 'm2v', 'm3v', 'm4v', 'm5v', 'm6v', 'm7v', 'm8v', 
+#                         'm9v', 'l1v','l2v', 'l3v', 'l5v', 'l6v', 'l8v', 't2v', 'g8v',
+#                         'b3v','b8v','b9v','a1v'] #add in new spectral types NG 9 June 2022
+# st_templates_new = np.empty([order_array_size*len(new_orders),len(st_templates_columns)+1])
+# st_templates_new[:,0] = new_transmission_array[:,0]
+
+# for icolst in range(len(st_templates_columns)):
+#     st_templates_interp_icol = scipy.interpolate.interp1d(st_templates['#Lambda'],st_templates[st_templates_columns[icolst]],fill_value="extrapolate")
+#     st_templates_new[:,icolst+1] = st_templates_interp_icol(new_transmission_array[:,0])
+
+# st_templates_new_df = pd.DataFrame(data=st_templates_new,index=None,columns=st_templates.columns)
+# st_templates_new_df.to_csv('updated_files/'+new_st_templates_filename,index=None, sep='\t')
+
+#NG update 14 July 2022
 st_templates = pd.read_csv('old_files/STAR_templates.txt',header=0,sep=r"\s+")
-st_templates_columns = ['f0v', 'f5v', 'g0v', 'g5v', 'k0v', 'k3v', 'k7v', 
+st_templates_columns_o = ['f0v', 'f5v', 'g0v', 'g5v', 'k0v', 'k3v', 'k7v', 
                         'm0v','m1v', 'm2v', 'm3v', 'm4v', 'm5v', 'm6v', 'm7v', 'm8v', 
                         'm9v', 'l1v','l2v', 'l3v', 'l5v', 'l6v', 'l8v', 't2v', 'g8v',
                         'b3v','b8v','b9v','a1v'] #add in new spectral types NG 9 June 2022
-st_templates_new = np.empty([order_array_size*len(new_orders),len(st_templates_columns)+1])
+st_templates_columns_n = ['wavelength','F0V', 'F5V', 'G0V', 'G5V', 'K0V', 'K3V', 'K7V', 
+                        'M0V','M1V', 'M2V', 'M3V', 'M4V', 'M5V', 'M6V', 'M7V', 'M8V', 
+                        'M9V', 'L1V','L2V', 'L3V', 'L5V', 'L6V', 'L8V', 'T2V', 'G8V',
+                        'B3V','B8V','B9V','A1V'] #add in new spectral types NG 9 June 2022
+st_templates_new = np.empty([order_array_size*len(new_orders),len(st_templates_columns_n)])
 st_templates_new[:,0] = new_transmission_array[:,0]
 
-for icolst in range(len(st_templates_columns)):
-    st_templates_interp_icol = scipy.interpolate.interp1d(st_templates['#Lambda'],st_templates[st_templates_columns[icolst]],fill_value="extrapolate")
+for icolst in range(len(st_templates_columns_o)):
+    st_templates_interp_icol = scipy.interpolate.interp1d(st_templates['#Lambda'],st_templates[st_templates_columns_o[icolst]],fill_value="extrapolate")
     st_templates_new[:,icolst+1] = st_templates_interp_icol(new_transmission_array[:,0])
 
-st_templates_new_df = pd.DataFrame(data=st_templates_new,index=None,columns=st_templates.columns)
+#st_templates_new_df = pd.DataFrame(data=st_templates_new,index=None,columns=st_templates.columns)
+st_templates_new_df = pd.DataFrame(data=st_templates_new,index=None,columns=st_templates_columns_n)
 st_templates_new_df.to_csv('updated_files/'+new_st_templates_filename,index=None, sep='\t')
+
+
 
 #plt.figure()
 #plt.plot(st_templates['#Lambda'],st_templates['m4v'],'.',label='original')

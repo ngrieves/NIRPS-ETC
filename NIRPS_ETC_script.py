@@ -179,138 +179,49 @@ for itarget in range(len(targets)):
     		I_max=16.7*27300 								# Saturation limit for HE mode
     	return I_max
     
-    
     def calc_flux_spectral_type(st,H):
-    	flux_sts=[]
+    	st_templates_in = pd.read_csv('inputs/'+st_templates_file,header=0,sep=r"\s+")#,skiprows=[1])
+    	st_template_mag_conversions = {'B3V':{'I-H':-0.279,'Ho':4.840}, #NG add 09.06.2022 #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py) #Spectra from HR3454 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+                                    'B8V':{'I-H':-0.149,'Ho':3.53}, #NG add 09.06.2022 #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)  #Spectra from HR8634 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+                                    'B9V':{'I-H':-0.076,'Ho':4.845}, #NG add 09.06.2022 #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py) #Spectra from HR4468 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+                                    'A1V':{'I-H':0.016,'Ho':3.71}, #NG add 09.06.2022 #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py) #Spectra from HR4468 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
+                                    'F0V':{'I-H':0.348,'Ho':6.998},
+                                    'F5V':{'I-H':0.519,'Ho':4.738},
+                                    'G0V':{'I-H':0.699,'Ho':2.905},
+                                    'G5V':{'I-H':0.821,'Ho':4.614},
+                                    'G8V':{'I-H':0.902,'Ho':4.265}, #NG add 06.17.2020 #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt #H mag of star in IRFT spectrum header: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
+                                    'K0V':{'I-H':1.009,'Ho':4.803},
+                                    'K3V':{'I-H':1.275,'Ho':3.469},
+                                    'K7V':{'I-H':1.665,'Ho':5.499},
+                                    'M0V':{'I-H':1.739,'Ho':5.843},
+                                    'M1V':{'I-H':1.799,'Ho':4.393},
+                                    'M2V':{'I-H':1.833,'Ho':3.640},
+                                    'M3V':{'I-H':1.928,'Ho':4.843},
+                                    'M4V':{'I-H':2.137,'Ho':6.627},
+                                    'M5V':{'I-H':2.354,'Ho':8.014},
+                                    'M6V':{'I-H':2.848,'Ho':6.482},
+                                    'M7V':{'I-H':3.147,'Ho':9.201},
+                                    'M8V':{'I-H':3.668,'Ho':11.066},
+                                    'M9V':{'I-H':3.996,'Ho':8.905},
+                                    'L1V':{'I-H':5.477,'Ho':12.041},
+                                    'L2V':{'I-H':5.704,'Ho':12.392},
+                                    'L3V':{'I-H':5.931,'Ho':12.380},
+                                    'L5V':{'I-H':6.385,'Ho':11.895},
+                                    'L6V':{'I-H':6.612,'Ho':13.099},
+                                    'L8V':{'I-H':7.066,'Ho':12.204},
+                                    'T2V':{'I-H':9.108,'Ho':14.090}
+                                    }
+    	if st in st_template_mag_conversions:
+    		flux_sts = st_templates_in[st]
+    		I = H + st_template_mag_conversions[st]['I-H']
+    		Ho = st_template_mag_conversions[st]['Ho']
     
-    	file_name='inputs/'+st_templates_file
-    	lines=reading_table(file_name)
-    
-    	for line in lines:
-    		if st == 'F0V':
-    			flux_sts.append(line[1])
-    			I=0.348+H
-    			Ho=6.998
-    		elif st == 'F5V':
-    			flux_sts.append(line[2])
-    			I=0.519+H
-    			Ho=4.738
-    		elif st == 'G0V':
-    			flux_sts.append(line[3])
-    			I=0.699+H
-    			Ho=2.905
-    		elif st == 'G5V':
-    			flux_sts.append(line[4])
-    			I=0.821+H
-    			Ho=4.614
-    		elif st == 'K0V':
-    			flux_sts.append(line[5])
-    			I=1.009+H
-    			Ho=4.803
-    		elif st == 'K3V':
-    			flux_sts.append(line[6])
-    			I=1.275+H
-    			Ho=3.469
-    		elif st == 'K7V':
-    			flux_sts.append(line[7])
-    			I=1.665+H
-    			Ho=5.499
-    		elif st == 'M0V':
-    			flux_sts.append(line[8])
-    			I=1.739+H
-    			Ho=5.843
-    		elif st == 'M1V':
-    			flux_sts.append(line[9])
-    			I=1.799+H
-    			Ho=4.393
-    		elif st == 'M2V':
-    			flux_sts.append(line[10])
-    			I=1.833+H
-    			Ho=3.640
-    		elif st == 'M3V':
-    			flux_sts.append(line[11])
-    			I=1.928+H
-    			Ho=4.843
-    		elif st == 'M4V':
-    			flux_sts.append(line[12])
-    			I=2.137+H
-    			Ho=6.627
-    		elif st == 'M5V':
-    			flux_sts.append(line[13])
-    			I=2.354+H
-    			Ho=8.014
-    		elif st == 'M6V':
-    			flux_sts.append(line[14])
-    			I=2.848+H
-    			Ho=6.482
-    		elif st == 'M7V':
-    			flux_sts.append(line[15])
-    			I=3.147+H
-    			Ho=9.201
-    		elif st == 'M8V':
-    			flux_sts.append(line[16])
-    			I=3.668+H
-    			Ho=11.066
-    		elif st == 'M9V':
-    			flux_sts.append(line[17])
-    			I=3.996+H
-    			Ho=8.905
-    		elif st == 'L1V':
-    			flux_sts.append(line[18])
-    			I=5.477+H
-    			Ho=12.041
-    		elif st == 'L2V':
-    			flux_sts.append(line[19])
-    			I=5.704+H
-    			Ho=12.392
-    		elif st == 'L3V':
-    			flux_sts.append(line[20])
-    			I=5.931+H
-    			Ho=12.380
-    		elif st == 'L5V':
-    			flux_sts.append(line[21])
-    			I=6.385+H
-    			Ho=11.895
-    		elif st == 'L6V':
-    			flux_sts.append(line[22])
-    			I=6.612+H
-    			Ho=13.099
-    		elif st == 'L8V':
-    			flux_sts.append(line[23])
-    			I=7.066+H
-    			Ho=12.204
-    		elif st == 'T2V':
-    			flux_sts.append(line[24])
-    			I=9.108+H
-    			Ho=14.090
-    		elif st == 'G8V':                 #NG add 06.17.2020
-    			flux_sts.append(line[25])     
-    			I=0.902+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt
-    			Ho=4.265                      #H mag of star in IRFT spectrum header: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/Data/G8V_HD75732.txt
-    		elif st == 'B3V':                 #NG add 09.06.2022
-    			flux_sts.append(line[26])     
-    			I=H-0.279                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
-    			Ho=4.840                      #Spectra from HR3454 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
-    		elif st == 'B8V':                 #NG add 09.06.2022
-    			flux_sts.append(line[27])     
-    			I=H-0.149                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
-    			Ho=3.53                       #Spectra from HR8634 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
-    		elif st == 'B9V':                 #NG add 09.06.2022
-    			flux_sts.append(line[28])     
-    			I=H-0.076                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
-    			Ho=4.845                      #Spectra from HR4468 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
-    		elif st == 'A1V':                 #NG add 09.06.2022
-    			flux_sts.append(line[29])     
-    			I=0.016+H                     #I-H calculated from: http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt (intermediate_preparation/add_stellar_templates/I_Hmag_mamjek.py)
-    			Ho=3.71                       #Spectra from HR7950 in CRIRES+ spectrophotometric standard stars: https://github.com/ivh/cr2rep/tree/master/catalogs/stdstar
-
-
-    	if len(flux_sts) == 0:
+    	else:
     			print("\n################################################")
     			print("# There is no template for this spectral type. #")
     			print("################################################\n")
     			st=calc_spectral_type()
-    
+
     	return (flux_sts,I,Ho)
     
     def calc_total_efficiency(obs_mode,seeing,airmass,I):
@@ -914,6 +825,7 @@ for itarget in range(len(targets)):
     FLUX_mean=[]
     EFF_mean=[]
     SATURATION=[]
+    N_OBJ_PIXEL=[] #NG add in 13 July 2022 to account for juste-/pxl not used in RV caluclation
     
     
     i=0
@@ -948,7 +860,8 @@ for itarget in range(len(targets)):
     		#N_OBJ.append(n_obj_pxl)
     		#For total number of electrons: multiply by ((delta wavlength of the array) / (bin size))
     		#to account for the array size of the effs/tapas/stellar template wavelength values
-    		N_OBJ.append(n_obj_pxl*(delta_wavelength/bin_size_pxl)) 
+    		N_OBJ.append(n_obj_pxl*(delta_wavelength/bin_size_pxl))
+    		N_OBJ_PIXEL.append(n_obj_pxl) #NG add in 13 July 2022 to account for juste-/pxl not used in RV caluclation
     
     		if n_obj_pxl > I_max:
     			cont_saturation+=1.0
@@ -989,8 +902,9 @@ for itarget in range(len(targets)):
     		S_N_pxl.append(s_n_pxl)
     		S_N_bin.append(s_n_bin)
     		FLUX.append(flux)
-    		N_OBJ.append(n_obj_pxl)
-    
+    		N_OBJ.append(n_obj_pxl*(delta_wavelength/bin_size_pxl)) #NG fix 13 July 2022
+    		N_OBJ_PIXEL.append(n_obj_pxl) #NG add in 13 July 2022 to account for juste-/pxl not used in RV caluclation
+
     		if n_obj_pxl > I_max:
     			cont_saturation+=1.0
     
@@ -1103,7 +1017,7 @@ for itarget in range(len(targets)):
     for i in range(len(order_wave)):
     	SN_pxl_order_central[i] = np.nanmean(S_N_pxl[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
     	SN_bin_order_central[i] = np.nanmean(S_N_bin[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])#[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
-    	N_OBJ_order_central[i] = np.nanmean(N_OBJ[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
+    	N_OBJ_order_central[i] = np.nanmean(N_OBJ_PIXEL[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
     	EFF_order_central[i] = np.nanmean(total_effs[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
     	#text_file.write('# %s %7.2f (%7.2f-%7.2f) '%(repr(order_wave[i]).rjust(3),central_wave[i],beg_wave[i],end_wave[i]))
     	#text_file.write('%5.3f %.5e %5.1f %8.1f %s \n'%(EFF_order_central[i],N_OBJ_order_central[i],SN_pxl_order_central[i],SN_bin_order_central[i],repr(int(SATURATION[i]*100.)).rjust(10)))
