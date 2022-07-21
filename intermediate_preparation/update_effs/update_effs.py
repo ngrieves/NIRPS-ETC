@@ -16,7 +16,7 @@ from scipy.signal import medfilt
 
 showplots = 1
 order_array_size = 1000 #sample size that each order will be interpolated into
-wave_range = 'FSR' #select 'TSR' or 'FSR'
+wave_range = 'TSR' #select 'TSR' or 'FSR'
 #FSR = Free Spectral Range calculated from 50% of blaze
 #TSR = Total Spectral Range
 
@@ -79,7 +79,7 @@ for iord in range(len(new_orders)):
         iord_newwave_interp = scipy.interpolate.interp1d(np.arange(iord_newwave_init.size),iord_newwave_init)
         iord_newwave = iord_newwave_interp(np.linspace(0,iord_newwave_init.size-1,order_array_size))
     
-        iord_blazenorm_init = new_blaze[iord]/max(new_blaze[iord])
+        iord_blazenorm_init = (new_blaze[iord] - np.nanmin(new_blaze[iord])) / (np.nanmax(new_blaze[iord]) - np.nanmin(new_blaze[iord])) #new_blaze[iord]/max(new_blaze[iord])
         iord_blazenorm_interp = scipy.interpolate.interp1d(np.arange(iord_blazenorm_init.size),iord_blazenorm_init)
         iord_blazenorm = iord_blazenorm_interp(np.linspace(0,iord_blazenorm_init.size-1,order_array_size))
 
@@ -93,7 +93,7 @@ for iord in range(len(new_orders)):
         iord_newwave_interp = scipy.interpolate.interp1d(np.arange(iord_newwave_init.size),iord_newwave_init)
         iord_newwave = iord_newwave_interp(np.linspace(0,iord_newwave_init.size-1,order_array_size))
         
-        iord_blazenorm_init = blaze_med_iord[gt50_med]/max(blaze_med_iord[gt50_med])
+        iord_blazenorm_init = (blaze_med_iord[gt50_med] - np.nanmin(blaze_med_iord[gt50_med])) / (np.nanmax(blaze_med_iord[gt50_med]) - np.nanmin(blaze_med_iord[gt50_med])) #blaze_med_iord[gt50_med]/max(blaze_med_iord[gt50_med])
         iord_blazenorm_interp = scipy.interpolate.interp1d(np.arange(iord_blazenorm_init.size),iord_blazenorm_init)
         iord_blazenorm = iord_blazenorm_interp(np.linspace(0,iord_blazenorm_init.size-1,order_array_size))
         
