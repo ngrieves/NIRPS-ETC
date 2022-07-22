@@ -20,7 +20,7 @@ waveselect = 'FSR'
 output_targets = open(output_targets_file, "w")
 # output_targets.write('target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) Hmax_1619nm_S/N(ph/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n')
 output_targets.write(
-    'target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n'
+    'target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 Max_saturation(%)\n'
 )
 
 ### Telescope parameters ###
@@ -37,13 +37,13 @@ for itarget in range(len(targets)):
     bandpass = bandpasses[itarget]
 
     (SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave,
-     rv_total_spirou, rv_total_eniric) = run_nirps_etc(obs_mode, st, H, seeing,
-                                                       airmass, t_exp,
-                                                       bandpass,
-                                                       waveselect, plot=True,
-                                                       name=target, show=False,
-                                                       save_details=False,
-                                                       save_plot=False)
+     rv_total_spirou, rv_total_eniric, max_sat) = run_nirps_etc(obs_mode, st, H, seeing,
+                                                                airmass, t_exp,
+                                                                bandpass,
+                                                                waveselect, plot=True,
+                                                                name=target, show=False,
+                                                                save_details=False,
+                                                                save_plot=False)
 
     if isinstance(rv_total_spirou, str):
         spRV = rv_total_spirou
@@ -58,13 +58,13 @@ for itarget in range(len(targets)):
         enRV_vsini5 = '{:.2f}'.format(float(rv_total_eniric[2]))
         enRV_vsini10 = '{:.2f}'.format(float(rv_total_eniric[3]))
 
-    print ("=================================================================\n\n")
+    print("=================================================================\n\n")
     output_sn = target+' %.1f %.1f %.1f %.1f %.1f ' % (
         np.nanmean(SN_pxl_order_central[(SN_pxl_order_central > 0)]),
         SN_pxl_Y, SN_pxl_J, SN_pxl_H,
         SN_pxl_order_central[order_wave == 90][0])
     output_rv = spRV+' '+enRV_vsini01+' '+enRV_vsini1+' '+enRV_vsini5+' '+enRV_vsini10
-    output_line = output_sn + output_rv + '\n'
+    output_line = output_sn + output_rv + f' {max_sat}\n'
     output_targets.write(output_line)
 
 output_targets.close()

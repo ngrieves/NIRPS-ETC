@@ -360,6 +360,8 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         total_effs[((wavelengths_nm >= wlnmin_h) & (wavelengths_nm <= wlnmax_h))]
     )
 
+    max_sat = np.max(SATURATION) * 100
+
     if save_details:
         text_file.close()
     print("-----------------------------------------------------------------")
@@ -379,6 +381,8 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
             SNR_pxl_H, SNR_bin_H
         )
     )
+    print("-----------------------------------------------------------------")
+    print(f"Max saturation: {max_sat} %")
     print("-----------------------------------------------------------------")
     print("\nMean Efficiency: %5.3f " % (np.nanmean(total_effs)))
     print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n" % (
@@ -401,6 +405,7 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         print("# It's not possible to calculate the RV precision of this spectral type with the NIRPS ETC currently #\n")
         rv_total_spirou = "--"
         rv_total_eniric = [rv_total_spirou] * 4
+
 
     if plot:
         ################################################
@@ -447,4 +452,4 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
 
     print("=================================================================\n\n")
 
-    return SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave, rv_total_spirou, rv_total_eniric
+    return SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave, rv_total_spirou, rv_total_eniric, max_sat
