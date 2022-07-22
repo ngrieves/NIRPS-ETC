@@ -382,6 +382,8 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         )
     )
     print("-----------------------------------------------------------------")
+    print(f"Max saturation: {max_sat} %")
+    print("-----------------------------------------------------------------")
     print("\nMean Efficiency: %5.3f " % (np.nanmean(total_effs)))
     print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n" % (
         mean_eff_Y, mean_eff_J, mean_eff_H
