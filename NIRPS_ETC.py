@@ -10,20 +10,20 @@ start_time = time.time()
 # Observation Mode (HA/HE):
 obs_mode = 'HA'
 # Seeing, in arcsec (range 0.7-1.2):
-seeing = 1.2
+seeing = 1.0
 # Airmass (range 1.0-2.0):
 airmass = 1.2
 # Object magnitude (H band):
-H = 3.5
+H = 6
 # Exposure time (in sec):
-t_exp = 60
+t_exp = 300
 
 # ST Models for IRFT
 # Spectral type that only have SNR estimate:
 # B3V/B8V/B9V/A1V/F0V/F5V/G0V/G5V/G8V/K0V/L1V/L2V/L3V/L5V/L6V/L8V/T2V
 # Spectral type that have SNR and RV precision estimate:
 # K3V/K7V/M0V/M1V/M2V/M3V/M4V/M5V/M6V/M7V/M8V/M9V
-st = 'A1V'
+st = 'M4V'
 
 # wavelength bandpasses for YJH ('CFHT' or 'Eniric')
 bandpass = 'CFHT'
