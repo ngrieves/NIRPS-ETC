@@ -88,7 +88,7 @@ for iord in range(len(new_orders)):
         iord_newwave_interp = scipy.interpolate.interp1d(np.arange(iord_newwave_init.size),iord_newwave_init)
         iord_newwave = iord_newwave_interp(np.linspace(0,iord_newwave_init.size-1,order_array_size))
     
-        iord_blazenorm_init = (new_blaze[iord] - np.nanmin(new_blaze[iord])) / (np.nanmax(new_blaze[iord]) - np.nanmin(new_blaze[iord])) #new_blaze[iord]/max(new_blaze[iord])
+        iord_blazenorm_init =  new_blaze[iord] / np.nanmax(new_blaze[iord]) #(new_blaze[iord] - np.nanmin(new_blaze[iord])) / (np.nanmax(new_blaze[iord]) - np.nanmin(new_blaze[iord])) #new_blaze[iord]/max(new_blaze[iord])
         iord_blazenorm_interp = scipy.interpolate.interp1d(np.arange(iord_blazenorm_init.size),iord_blazenorm_init)
         iord_blazenorm = iord_blazenorm_interp(np.linspace(0,iord_blazenorm_init.size-1,order_array_size))
     else:
