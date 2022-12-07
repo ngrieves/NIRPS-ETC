@@ -3,8 +3,8 @@ import numpy as np
 
 from nirps_etc_driver import run_nirps_etc
 
-input_targets_file = 'comm7_3dec_etc_input.txt'
-output_targets_file = 'comm7_3dec_etc_output.txt'
+input_targets_file = 'etc_targets_input.txt'
+output_targets_file = 'etc_targets_output.txt'
 
 input_targets = pd.read_csv(input_targets_file, sep=r"\s+", header=0)
 targets = input_targets['target']
