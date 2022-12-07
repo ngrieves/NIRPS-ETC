@@ -299,16 +299,16 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
     ind2_center = int(len(S_N_pxl)/len(order_wave)*0.525)-1
 
     for i in range(len(order_wave)):
-        SN_pxl_order_central[i] = np.nanmedian(
+        SN_pxl_order_central[i] = np.nanmean(
             S_N_pxl[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)]
         )
-        SN_bin_order_central[i] = np.nanmedian(
+        SN_bin_order_central[i] = np.nanmean(
             S_N_bin[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)]
         )  # [(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)])
-        N_OBJ_order_central[i] = np.nanmedian(
+        N_OBJ_order_central[i] = np.nanmean(
             N_OBJ_PIXEL[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)]
         )
-        EFF_order_central[i] = np.nanmedian(
+        EFF_order_central[i] = np.nanmean(
             total_effs[(i*order_sampling_size+ind1_center):(i*order_sampling_size+ind2_center)]
         )
         if save_details:
@@ -452,4 +452,4 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
 
     print("=================================================================\n\n")
 
-    return N_OBJ_order_central, SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave, rv_total_spirou, rv_total_eniric, max_sat
+    return SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave, rv_total_spirou, rv_total_eniric, max_sat

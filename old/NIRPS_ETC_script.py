@@ -3,8 +3,8 @@ import numpy as np
 
 from nirps_etc_driver import run_nirps_etc
 
-input_targets_file = 'comm7_3dec_etc_input.txt'
-output_targets_file = 'comm7_3dec_etc_output.txt'
+input_targets_file = 'etc_targets_input.txt'
+output_targets_file = 'etc_targets_output.txt'
 
 input_targets = pd.read_csv(input_targets_file, sep=r"\s+", header=0)
 targets = input_targets['target']
@@ -20,7 +20,7 @@ waveselect = 'FSR'
 output_targets = open(output_targets_file, "w")
 # output_targets.write('target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) Hmax_1619nm_S/N(ph/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 \n')
 output_targets.write(
-    'target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) EchelleOrd90_MedFlux(e-/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 Max_saturation(%)\n'
+    'target Mean_S/N_(ph/pxl) Mean_S/N_Y(ph/pxl) Mean_S/N_J(ph/pxl) Mean_S/N_H(ph/pxl) EchelleOrd90_S/N(ph/pxl) spRV enRV_vsini01 enRV_vsini1 enRV_vsini5 enRV_vsini10 Max_saturation(%)\n'
 )
 
 ### Telescope parameters ###
@@ -36,7 +36,7 @@ for itarget in range(len(targets)):
     st = sts[itarget]
     bandpass = bandpasses[itarget]
 
-    (N_OBJ_order_central, SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave,
+    (SN_pxl_order_central, SN_pxl_Y, SN_pxl_J, SN_pxl_H, order_wave,
      rv_total_spirou, rv_total_eniric, max_sat) = run_nirps_etc(obs_mode, st, H, seeing,
                                                                 airmass, t_exp,
                                                                 bandpass,
@@ -59,10 +59,9 @@ for itarget in range(len(targets)):
         enRV_vsini10 = '{:.2f}'.format(float(rv_total_eniric[3]))
 
     print("=================================================================\n\n")
-    output_sn = target+' %.1f %.1f %.1f %.1f %i %.1f ' % (
+    output_sn = target+' %.1f %.1f %.1f %.1f %.1f ' % (
         np.nanmean(SN_pxl_order_central[(SN_pxl_order_central > 0)]),
         SN_pxl_Y, SN_pxl_J, SN_pxl_H,
-        N_OBJ_order_central[order_wave == 90][0],
         SN_pxl_order_central[order_wave == 90][0])
     output_rv = spRV+' '+enRV_vsini01+' '+enRV_vsini1+' '+enRV_vsini5+' '+enRV_vsini10
     output_line = output_sn + output_rv + f' {max_sat}\n'
