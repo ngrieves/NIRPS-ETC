@@ -10,3 +10,15 @@ Run update_effs.py to create the new input files in the updated_files directory
 Add these files into the overall input directory
 
 ***** MAKE SURE SAMPLING IS SAME FOR THE tapas effs AND STAR_templates files *****
+
+8 January 2023
+Getting new wave matrix and blaze files:
+/data/NIRPSDRS/DRS-3.0.0/reduced/2022-12-08
+File								TPL.ID 			ins.mode
+r.NIRPS.2022-12-08T22:56:24.084_WAVE_MATRIX_THAR_FP_A.fits    	NIRPS_HA_cal_wave	HA
+r.NIRPS.2022-12-08T23:06:31.577_WAVE_MATRIX_FP_THAR_B.fits    	NIRPS_HA_cal_wave	HA 
+r.NIRPS.2022-12-08T22:06:25.499_BLAZE_A.fits              	NIRPS_HA_cal_flat       HA      	
+r.NIRPS.2022-12-08T22:06:25.499_BLAZE_B.fits              	NIRPS_HA_cal_flat       HA  
+
+update_effs_jan2023.py - use for Science Team (ST) ETC input files
+effs_wln_mono_jan2023.py - use for ESO ETC input files
