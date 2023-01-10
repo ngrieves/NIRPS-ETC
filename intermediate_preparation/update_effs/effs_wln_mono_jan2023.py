@@ -26,8 +26,8 @@ wave_range = 'TSR' #select 'TSR' or 'FSR'
 #TSR = Total Spectral Range
 
 #set the physical orders - make sure to match the wave matrix and blaze files
-new_orders_first = np.arange(107,150)[::-1]
-new_orders_second = np.arange(77,105)[::-1]
+new_orders_first = np.arange(106,149)[::-1]
+new_orders_second = np.arange(76,104)[::-1]
 new_orders = np.append(new_orders_first,new_orders_second)
 
 #load new wave matrix and blaze data

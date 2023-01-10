@@ -21,8 +21,8 @@ wave_range = 'TSR' #select 'TSR' or 'FSR'
 #TSR = Total Spectral Range
 
 #set the physical orders - make sure to match the wave matrix and blaze files
-new_orders_first = np.arange(107,150)[::-1]
-new_orders_second = np.arange(77,105)[::-1]
+new_orders_first = np.arange(106,149)[::-1]
+new_orders_second = np.arange(76,104)[::-1]
 new_orders = np.append(new_orders_first,new_orders_second)
 ####### old for june 2022 #######
 # #set the physical orders - make sure to match the wave matrix and blaze files
@@ -31,7 +31,6 @@ new_orders = np.append(new_orders_first,new_orders_second)
 # #new_orders_second = np.arange(81,105)[::-1]
 # #new_orders_second = np.arange(78,105)[::-1]
 # new_orders = np.append(new_orders_first,new_orders_second)
-
 
 if wave_range == 'FSR':
     new_effs_filename = 'NIRPS_effs_FSR.txt'
