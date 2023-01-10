@@ -29,12 +29,15 @@ def calc_resoving_power(obs_mode):
         resolving_power = 70000  # Resolving power for HE mode
     return resolving_power
 
-
+#The saturation level of the NIRPS H4RG detector is defined as 45’000 ADU / pixel. 
+#Considering the conversion factor of 1.27 e-/ADU and the typical extraction window of 3.5 pixels for HA mode and 15.5 pixels for HE mode, the saturation level is: 
+#-   For HA mode: 200’000 e- per extracted pixel for HA mode (SNR ~450) 
+#-   For HE mode: 880’000 e- per extracted pixel for HE mode (SNR ~940)
 def calc_I_max(obs_mode):
     if obs_mode == "HA":
-        I_max = 3.6 * 27300  # Saturation limit for HA mode
+        I_max = 3.5 * 45000 * 1.27  # Saturation limit for HA mode
     else:
-        I_max = 16.7 * 27300  # Saturation limit for HE mode
+        I_max = 15.5 * 45000 * 1.27  # Saturation limit for HE mode
     return I_max
 
 
@@ -48,9 +51,9 @@ def calc_sampling(obs_mode):
 
 def calc_N_pix_Y(obs_mode):
     if obs_mode == "HA":
-        N_pix_Y = 3.6  # Bin for HA mode
+        N_pix_Y = 3.5  # Bin for HA mode
     else:
-        N_pix_Y = 16.7  # Bin for HE mode
+        N_pix_Y = 15.5  # Bin for HE mode
     return N_pix_Y
 
 
