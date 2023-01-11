@@ -5,8 +5,6 @@ Original NIRPS ETC code by Bruno L. Canto Martins 2018-2019
 
 Updates & Modifications 2020-2023 by Nolan Grieves (University of Geneva)
 
-Last updated January 2023
-
 ## Overview 
 * The NIRPS ETC uses spectra from the NASA Infrared Telescope Facility (IRTF) as SEDs to get estimated flux values for different spectral types: http://irtfweb.ifa.hawaii.edu/~spex/IRTF_Spectral_Library/
 * The ETC calculates efficiency at different wavelengths using seeing, atmospheric efficiency from TAPAS (http://cds-espri.ipsl.fr/tapas/), and the measured global efficiency of the instrument
@@ -83,7 +81,7 @@ $ python NIRPS_ETC_script.py
 * etc_targets_output.txt
   - example ouput file for NIRPS_ETC_script.py
 * nirps_etc_lib.py
-  - definitions for fucntions in ETC code
+  - definitions for functions in ETC code
 
 
 
