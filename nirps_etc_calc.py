@@ -708,7 +708,7 @@ def calc_S_N_order(obs_mode, t_exp, d_t, seeing, wavelength, resolving_power,
     return (N_obj_pxl, N_obj_bin, bin_size_pxl, bin_size_bin, flux, S_N_pxl, S_N_bin)
 
 
-def calc_rv_precision(st, obs_mode, sn_h, spirou_fit_qvalues_file,
+def calc_rv_precision(st, obs_mode, spirou_fit_qvalues_file,
                       phoenix_Q_conversions_file, phoenix_eniric_Qfactors_file,
                       N_OBJ_arr, wavelengths_nm, bandpass,
                       wlnmax_y, wlnmax_j, wlnmax_h,

@@ -193,12 +193,12 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
 
         i = i+1
 
-    # Hband SNR
-    hband_wave = central_wave[np.argmin(abs(np.array(central_wave)-1630))]
-    hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - hband_wave))
-    SNR_pxl_H = S_N_pxl[hband_ind]
-    SNR_bin_H = S_N_bin[hband_ind]
-    sn_h = SNR_bin_H
+    ## Hband SNR
+    #hband_wave = central_wave[np.argmin(abs(np.array(central_wave)-1630))]
+    #hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - hband_wave))
+    #SNR_pxl_H = S_N_pxl[hband_ind]
+    #SNR_bin_H = S_N_bin[hband_ind]
+    #sn_h = SNR_bin_H
 
     sn_pxl = s_n_pxl_mean/divisor
     sn_bin = s_n_bin_mean/divisor
@@ -268,7 +268,7 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
     print("seeing (arcsec): %.1f" % (seeing))
     print("airmass: %.1f\n" % (airmass))
 
-    print("Saturation limit (e-/pxl): %d\n\n" % (I_max))
+    print("Saturation limit (e-/pxl): %d\n" % (I_max))
 
     print("=================================================================")
 
@@ -335,11 +335,13 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
     if print_individual_orders == 1:
         printy_orders = [145,115,89]
         print('---------- SELECTED INDIVIDUAL ORDER QUICK INFORMATION ----------')
-        print("##--  calculated from the central 5% of each order --##")
+        print('               (check outputs for all order values)               ')
+        print("      --  calculated from the central 5% of each order --      ")
         for ordy in printy_orders:
             print(r'echelle order %i (wav_cen = %.1f nm): F_star = %i [e-/pxl]; S/N = %.1f [ph/pxl]'%
                   (ordy,central_wave[order_wave == ordy][0],N_OBJ_order_central[order_wave == ordy][0],
                       SN_pxl_order_central[order_wave == ordy][0]))
+    print("=================================================================")
 
     SN_pxl_Y = np.nanmean(
         SN_pxl_order_central[((central_wave >= wlnmin_y) & (central_wave <= wlnmax_y))]
@@ -377,26 +379,26 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         text_file.close()
     print("-----------------------------------------------------------------")
     print("\n SIGNAL TO NOISE RATIO:\n")
-    print("Mean S/N of center of all orders: %5.1f (ph/pxl) | %5.1f (ph/res elem)" % (
+    print("Mean S/N of center of all orders: %.1f (ph/pxl) | %.1f (ph/res elem)" % (
         np.nanmean(SN_pxl_order_central[(SN_pxl_order_central > 0)]),
         np.nanmean(SN_bin_order_central[SN_bin_order_central > 0])
     ))
-    print("Mean S/N of center of orders (ph/pxl): Y=%5.1f | J=%5.1f | H=%5.1f" % (
+    print("Mean S/N of center of orders in: Y=%.1f | J=%.1f | H=%.1f (ph/pxl)" % (
         SN_pxl_Y, SN_pxl_J, SN_pxl_H
     ))
-    print("         (ph/res elem): Y=%5.1f | J=%5.1f | H=%5.1f\n\n" % (
+    print("                             in: Y=%.1f | J=%.1f | H=%.1f (ph/res elem) \n" % (
         SN_bin_Y, SN_bin_J, SN_bin_H
     ))
-    print(
-        'S/N in H (%.1f nm): %.1f (ph/pxl) | %.1f (ph/res elem)\n' % (
-            hband_wave, SNR_pxl_H, SNR_bin_H
-        )
-    )
+    #print(
+    #    'S/N in H (%.1f nm): %.1f (ph/pxl) | %.1f (ph/res elem)\n' % (
+    #        hband_wave, SNR_pxl_H, SNR_bin_H
+    #    )
+    #)
     print("-----------------------------------------------------------------")
     print(f"Max saturation: {max_sat} %")
     print("-----------------------------------------------------------------")
-    print("\nMean Efficiency: %5.3f " % (np.nanmean(total_effs)))
-    print("Mean Efficiencies Y=%5.3f | J=%5.3f | H=%5.3f \n" % (
+    print("\nMean Efficiency: %.3f " % (np.nanmean(total_effs)))
+    print("Mean Efficiencies Y=%.3f | J=%.3f | H=%.3f \n" % (
         mean_eff_Y, mean_eff_J, mean_eff_H
     ))
     print("-----------------------------------------------------------------")
@@ -407,7 +409,7 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
     stypes_rv = np.array(['K3V', 'K7V', 'M0V', 'M1V', 'M2V', 'M3V', 'M4V', 'M5V', 'M6V', 'M7V', 'M8V', 'M9V'])
     if len(np.where(stypes_rv == st)[0]) == 1:
         rv_total_spirou, rv_total_eniric = nec.calc_rv_precision(
-            st, obs_mode, sn_h, spirou_fit_qvalues_file,
+            st, obs_mode, spirou_fit_qvalues_file,
             phoenix_Q_conversions_file, phoenix_eniric_Qfactors_file,
             N_OBJ_arr, wavelengths_nm, bandpass,
             wlnmax_y, wlnmax_j, wlnmax_h,
