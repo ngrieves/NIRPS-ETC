@@ -194,7 +194,7 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         i = i+1
 
     # Hband SNR
-    hband_wave = 1619
+    hband_wave = central_wave[np.argmin(abs(np.array(central_wave)-1630))]
     hband_ind = np.argmin(np.abs(np.array(wavelengths_nm) - hband_wave))
     SNR_pxl_H = S_N_pxl[hband_ind]
     SNR_bin_H = S_N_bin[hband_ind]
@@ -330,6 +330,17 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
     total_effs = np.array(total_effs)
     N_OBJ_arr = np.array(N_OBJ)
 
+    ##### add 31 January 2023 #####
+    print_individual_orders = 1
+    if print_individual_orders == 1:
+        printy_orders = [145,115,89]
+        print('---------- SELECTED INDIVIDUAL ORDER QUICK INFORMATION ----------')
+        print("##--  calculated from the central 5% of each order --##")
+        for ordy in printy_orders:
+            print(r'echelle order %i (wav_cen = %.1f nm): F_star = %i [e-/pxl]; S/N = %.1f [ph/pxl]'%
+                  (ordy,central_wave[order_wave == ordy][0],N_OBJ_order_central[order_wave == ordy][0],
+                      SN_pxl_order_central[order_wave == ordy][0]))
+
     SN_pxl_Y = np.nanmean(
         SN_pxl_order_central[((central_wave >= wlnmin_y) & (central_wave <= wlnmax_y))]
     )
@@ -377,8 +388,8 @@ def run_nirps_etc(obs_mode, st, H, seeing, airmass, t_exp, bandpass,
         SN_bin_Y, SN_bin_J, SN_bin_H
     ))
     print(
-        'S/N in H ('+str(hband_wave)+' nm): %5.1f (ph/pxl) | %5.1f (ph/res elem)\n' % (
-            SNR_pxl_H, SNR_bin_H
+        'S/N in H (%.1f nm): %.1f (ph/pxl) | %.1f (ph/res elem)\n' % (
+            hband_wave, SNR_pxl_H, SNR_bin_H
         )
     )
     print("-----------------------------------------------------------------")
